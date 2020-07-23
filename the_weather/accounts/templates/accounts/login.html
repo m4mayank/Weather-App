@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends "weather/base.html" %}
+{% load bootstrap3 %}
+{% block body_block %}
+<div class="container">
+    <h1 class='title'>Login</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary" value="Login">
+    </form>
+</div>
+{% endblock %}

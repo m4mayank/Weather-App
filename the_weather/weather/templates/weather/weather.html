@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% extends "weather/base.html" %}
+{% load bootstrap3 %}
+{% block body_block %}
+<section class="section">
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="title">
+                What's the weather like?
+            </h1>
+                <form method="POST" id="personForm" data-cities-url="{% url 'weather:ajax_load_cities' %}" novalidate>
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <button type="submit" class="button is-info">
+                            Add City
+                        </button>
+                </form>
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                <script>
+                    $("#id_country").change(function () {
+                    var url = $("#personForm").attr("data-cities-url");  // get the url of the `load_cities` view
+                    var countryId = $(this).val();  // get the selected country ID from the HTML input
+
+                    $.ajax({                       // initialize an AJAX request
+                        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+                        data: {
+                        'country': countryId       // add the country id to the GET parameters
+                        },
+                        success: function (data) {   // `data` is the return of the `load_cities` view function
+                        $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
+                        }
+                    });
+
+                    });
+                </script>
+        </div>
+    </div>
+</section>
+
+
+<section class="section">
+    {% for city_weather in weather_data %}
+    <div class="container"> 
+        <div class="card bg-light mb-3 center" style="max-width: 25rem;">
+
+            <div class="card-header">
+                <div class="media">
+                    <div class="media-middle media-left">
+                        <a href="#">
+                            <img class="media-left" src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Image">
+                        </a>
+                    </div>
+                </div>
+                <h1 class="text-middle font-weight-bold " style="font-size:40px">{{ city_weather.city }}</h1>
+            </div>
+
+
+            <div class="card-body">
+              <h5 class="font-weight-bold">Temperature: {{ city_weather.temperature }} °F</h5>
+              <br><p class="card-text font-weight-bold">{{ city_weather.description }}</p>
+                <div class="text-right">
+                <a type="button" href="{% url 'weather:delete' pk=city_weather.id %}">
+                    <i class="far fa-trash-alt"></i>
+                </a> 
+                </div>                   
+            </div>
+        </div>
+    </div>
+                       
+    
+        {% endfor %}
+</section>
+{% endblock %}
