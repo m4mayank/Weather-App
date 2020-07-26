@@ -13,6 +13,7 @@ django-bootstrap3 = "*"
 django-braces = "*"
 django-debug-toolbar = "*"
 gunicorn = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.7"
