@@ -5,6 +5,7 @@
    Each user can customize the cities that they want to display.
    The project uses sqlite but i am later going to move it to postgres.
    I am also going to implement the complete CI/CD pipeline as part of the project.
+   The Dockerised version of the app can be found at : https://github.com/m4mayank/Dockerising-Weather-app
 
 ## Dependencies
    All the dependancies are mentioned in the Pipfile.
